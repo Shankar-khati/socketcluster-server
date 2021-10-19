@@ -436,6 +436,7 @@ AGServerSocket.prototype._processHandshakeRequest = async function (request) {
   }
 
   this.emit('connect', serverSocketStatus);
+  console.log(`##################### EMITTING CONNECTION EVENT ${serverSocketStatus} ###########`);
   this.server.emit('connection', {socket: this, ...serverSocketStatus});
 
   this.middlewareHandshakeStream.close();
