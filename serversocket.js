@@ -92,6 +92,15 @@ function AGServerSocket(id, server, socket, protocolVersion) {
     this._destroy(code, reason);
   });
 
+  (async () => {
+    for await (const { channel } of this.server.listener('unsubscription')) {
+      delete this.channelSubscriptions[channel];
+      if (this.channelSubscriptionsCount != null) {
+        this.channelSubscriptionsCount--;
+      }
+    }
+  })();
+
   let pongMessage;
   if (this.protocolVersion === 1) {
     pongMessage = '#2';
@@ -555,13 +564,7 @@ AGServerSocket.prototype._unsubscribe = function (channel) {
     );
   }
 
-  delete this.channelSubscriptions[channel];
-  if (this.channelSubscriptionsCount != null) {
-    this.channelSubscriptionsCount--;
-  }
-
   this.server.brokerEngine.unsubscribeSocket(this, channel);
-
   this.emit('unsubscribe', {channel});
   this.server.emit('unsubscription', {socket: this, channel});
 };
@@ -822,6 +825,8 @@ AGServerSocket.prototype.emitError = function (error) {
   this.emit('error', {error});
   this.server.emitWarning(error);
 };
+
+
 
 AGServerSocket.prototype._abortAllPendingEventsDueToBadConnection = function (failureType) {
   Object.keys(this._callbackMap || {}).forEach((i) => {
