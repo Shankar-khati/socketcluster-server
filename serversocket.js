@@ -600,7 +600,7 @@ AGServerSocket.prototype._processInboundPublishPacket = async function (packet) 
     return;
   }
   try {
-    await this.server.exchange.invokePublish(data.channel, data.data);
+    await this.server.exchange.invokePublish(data.channel, data.data, packet.meta);
   } catch (error) {
     this.emitError(error);
   }
@@ -764,7 +764,11 @@ AGServerSocket.prototype._processInboundPacket = async function (packet, message
         packet.data = {};
       }
       packet.data.data = newData;
-      packet.data.author = this.id;
+      
+      if (!packet.data.meta) { 
+        packet.data.meta = {};
+      }
+      packet.data.meta.author = this.id;
       await this._processInboundPublishPacket(packet);
     }
 
