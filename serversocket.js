@@ -764,6 +764,7 @@ AGServerSocket.prototype._processInboundPacket = async function (packet, message
         packet.data = {};
       }
       packet.data.data = newData;
+      packet.data.author = this.id;
       await this._processInboundPublishPacket(packet);
     }
 
