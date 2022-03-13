@@ -10,7 +10,7 @@
   "dependencies": {
     "ag-auth": "^1.0.1",
     "ag-request": "^1.0.0",
-    "ag-simple-broker": "git://github.com/Shankar-khati/ag-simple-broker.git#64253ac12ce59c9b28a1d4bfb97bac0129d75901",
+    "ag-simple-broker": "git://github.com/Shankar-khati/ag-simple-broker.git#5b913b435d4253c19a2a8b8cf99ad82c7f611ef4",
     "async-stream-emitter": "^4.0.0",
     "base64id": "^1.0.0",
     "clone-deep": "^4.0.1",
